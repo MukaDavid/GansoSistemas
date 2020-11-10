@@ -54,13 +54,13 @@ type
     procedure AdicionarItensNoMemo; overload;
     procedure AdicionarItensNoMemo(pMemo: TMemo; pEdit: TEdit); overload;
     function Somar(pX, pY : integer): integer;
-    procedure GerarUserIni;
+    procedure GerarUserIni; overload;
     procedure GerarUserJson;
     procedure GerarUserText;
-    procedure GerarUserXml;
+    procedure GerarUserXml; overload;
     procedure GerarUserFormatado(pFormato: TFormato);
-    function GerarUserIni(pCodigo: integer; pNome: string): string;
-    function GerarUserXml(pCodigo: integer; pNome: string): string;
+    function GerarUserIni(pCodigo: integer; pNome: string): string; overload;
+    function GerarUserXml(pCodigo: integer; pNome: string): string; overload;
 
 
     { Public declarations }
