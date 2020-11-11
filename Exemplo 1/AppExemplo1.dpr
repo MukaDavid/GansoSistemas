@@ -5,7 +5,9 @@ uses
   frmPrincipal in 'frmPrincipal.pas' {Form1},
   uFuncoes in 'uFuncoes.pas',
   uSistema in 'uSistema.pas',
-  frmLogin in 'frmLogin.pas' {Form2};
+  frmLogin in 'frmLogin.pas' {FormLogin},
+  uExportaDadosUsuario in 'uExportaDadosUsuario.pas',
+  uUsuario in 'uUsuario.pas';
 
 {$R *.res}
 

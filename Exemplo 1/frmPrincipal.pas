@@ -21,31 +21,29 @@ type
   TForm1 = class(TForm)
     Edit1: TEdit;
     Label1: TLabel;
-    Button1: TButton;
+    btnAddMemo: TButton;
     Memo1: TMemo;
     btnSalvar: TButton;
     Button3: TButton;
-    edtCodigo: TEdit;
-    edtNome: TEdit;
-    btnLogar: TButton;
-    Button2: TButton;
-    Button4: TButton;
     edtX: TEdit;
     edtY: TEdit;
     lblX: TLabel;
     Label3: TLabel;
-    Button5: TButton;
+    btnDividir: TButton;
     rdgFormato: TRadioGroup;
     btnGerarFormato: TButton;
-    Button6: TButton;
+    btnLoop: TButton;
+    lblDataLogin: TLabel;
+    Label2: TLabel;
+    Button1: TButton;
     procedure btnSalvarClick(Sender: TObject);
     procedure ExecutaTeste(Sender: TObject);
-    procedure btnLogarClick(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
+    procedure btnAddMemoClick(Sender: TObject);
+    procedure btnDividirClick(Sender: TObject);
     procedure btnGerarFormatoClick(Sender: TObject);
-    procedure Button6Click(Sender: TObject);
+    procedure btnLoopClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     procedure SalvarRegistro;
     procedure NotificarUsuarioDoSalvamento;
@@ -54,13 +52,17 @@ type
     procedure AdicionarItensNoMemo; overload;
     procedure AdicionarItensNoMemo(pMemo: TMemo; pEdit: TEdit); overload;
     function Somar(pX, pY : integer): integer;
-    procedure GerarUserIni; overload;
-    procedure GerarUserJson;
-    procedure GerarUserText;
-    procedure GerarUserXml; overload;
+
+    procedure GerarUserIni;  overload;
+    procedure GerarUserJson; overload;
+    procedure GerarUserText; overload;
+    procedure GerarUserXml;  overload;
+
     procedure GerarUserFormatado(pFormato: TFormato);
-    function GerarUserIni(pCodigo: integer; pNome: string): string; overload;
-    function GerarUserXml(pCodigo: integer; pNome: string): string; overload;
+    function GerarUserIni(pCodigo: integer; pNome: string): string;  overload;
+    function GerarUserXml(pCodigo: integer; pNome: string): string;  overload;
+    function GerarUserJson(pCodigo: integer; pNome: string): string; overload;
+    function GerarUserText(pCodigo: integer; pNome: string): string; overload;
 
 
     { Public declarations }
@@ -72,7 +74,7 @@ var
 implementation
 
 uses
-  Dialogs;
+  Dialogs, frmLogin, uExportaDadosUsuario;
 
 {$R *.dfm}
 
@@ -101,24 +103,12 @@ begin
   ShowMessage('ExecutaTeste');
 end;
 
-procedure TForm1.btnLogarClick(Sender: TObject);
-begin
-  Sistema.UsuarioLogado.Codigo := StrToInt(edtCodigo.text);
-  Sistema.UsuarioLogado.Nome   := edtNome.Text;
-end;
-
-procedure TForm1.Button2Click(Sender: TObject);
-begin
-  Memo1.Lines.Add('Codigo: '+IntToStr(Sistema.UsuarioLogado.Codigo));
-  Memo1.Lines.Add('Nome: '+Sistema.UsuarioLogado.Nome);
-end;
-
 procedure TForm1.AdicionarItensNoMemo;
 begin
   Memo1.Lines.Add(Edit1.Text);
 end;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.btnAddMemoClick(Sender: TObject);
 begin
   AdicionarItensNoMemo(Memo1,Edit1);
 end;
@@ -138,7 +128,7 @@ begin
   Result := pX div pY;
 end;
 
-procedure TForm1.Button5Click(Sender: TObject);
+procedure TForm1.btnDividirClick(Sender: TObject);
 var
   lResultado, lx, lY : integer;
 begin
@@ -173,25 +163,34 @@ end;
 
 procedure TForm1.GerarUserIni;
 begin
-  ShowMessage('GerarUserIni');
+  Memo1.Text := GerarUserIni(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
 end;
 
 procedure TForm1.GerarUserJson;
 begin
-  ShowMessage('GerarUserJson');
+  Memo1.Text := GerarUserJson(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
 end;
 
 procedure TForm1.GerarUserText;
+var
+  lExportaDadosUsuario: TExportaDadosUsuario;
 begin
-  ShowMessage('GerarUserText');
+  lExportaDadosUsuario := TExportaDadosUsuario.Create(Sistema.UsuarioLogado);
+  try
+    Memo1.Text := lExportaDadosUsuario.Dados;
+  finally
+    lExportaDadosUsuario.free;
+  end;
+
+  //Memo1.Text := GerarUserText(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
 end;
 
 procedure TForm1.GerarUserXml;
 begin
-  ShowMessage('GerarUserXml');
+  Memo1.Text := GerarUserXml(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
 end;
 
-procedure TForm1.Button6Click(Sender: TObject);
+procedure TForm1.btnLoopClick(Sender: TObject);
 var
   li: TFormato;
 begin
@@ -210,7 +209,65 @@ end;
 
 function TForm1.GerarUserXml(pCodigo: integer; pNome: string): string;
 begin
+  Result := '<?xml version="1.0"?>'+sLineBreak+
+            '<Company>'+sLineBreak+
+            '  <Employee>'+sLineBreak+
+            '      <Codigo>'+IntToStr(pCodigo)+'</Codigo>'+sLineBreak+
+            '      <Name>'+pNome+'</Name>'+sLineBreak+
+            '  </Employee>'+sLineBreak+
+            '</Company>';
+end;
 
+function TForm1.GerarUserText(pCodigo: integer; pNome: string): string;
+begin
+  Result := 'USUARIO'+sLineBreak+
+            'Codigo='+ IntToStr(pCodigo)+sLineBreak+
+            'Nome='+pNome;
+end;
+
+function TForm1.GerarUserJson(pCodigo: integer; pNome: string): string;
+begin
+  Result := '{'+sLineBreak+
+            '  "Titulo": "USUARIO",'+sLineBreak+
+            '  "Codigo":'+IntToStr(pCodigo)+','+sLineBreak+
+            '  "Nome": "'+pNome+'"'+sLineBreak+
+            '}';
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  FormLogin := TFormLogin.Create(Application);
+  try
+    if FormLogin.ShowModal = mrCancel then
+    begin
+      ShowMessage('Login não atribuido');
+      Application.Terminate;
+    end else begin
+      Application.ProcessMessages;
+      lblDataLogin.Caption := FormatDateTime('DD/MM/YYYY HH:NN:SS', FormLogin.DataLogin);
+    end;
+  finally
+    FormLogin.Free;
+  end;       
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  FormLogin := TFormLogin.Create(Application);
+  //try
+    if FormLogin.ShowModal = mrCancel then
+    begin
+      ShowMessage('Login não atribuido');
+      Application.Terminate;
+    end else begin
+      Application.ProcessMessages;
+      lblDataLogin.Caption := FormatDateTime('DD/MM/YYYY HH:NN:SS', FormLogin.DataLogin);
+    end;
+  //finally
+    FormLogin.Free;
+  //end;
+
+  ShowMessage('Teste');
 end;
 
 end.

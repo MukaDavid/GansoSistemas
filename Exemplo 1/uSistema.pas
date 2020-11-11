@@ -2,16 +2,10 @@ unit uSistema;
 
 interface
 
-type
-  TUsuario = class
-  private
-    FCodigo: integer;
-    FNome: string;
-  public
-    property Nome: string read FNome write FNome;
-    property Codigo: integer read FCodigo write FCodigo;
-  end;
+uses
+  uUsuario;
 
+type
   TSistema = class
   private
     FUsuario: TUsuario;
