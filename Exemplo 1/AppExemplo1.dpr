@@ -7,7 +7,8 @@ uses
   uSistema in 'uSistema.pas',
   frmLogin in 'frmLogin.pas' {FormLogin},
   uExportaDadosUsuario in 'uExportaDadosUsuario.pas',
-  uUsuario in 'uUsuario.pas';
+  uUsuario in 'uUsuario.pas',
+  uExportaDadosUsuarioTxt in 'uExportaDadosUsuarioTxt.pas';
 
 {$R *.res}
 

@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 600
-  Top = 191
+  Left = 428
+  Top = 260
   Width = 932
   Height = 575
   Caption = 'Form1'
@@ -13,6 +13,7 @@ object Form1: TForm1
   OldCreateOrder = False
   OnClick = btnSalvarClick
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -49,6 +50,20 @@ object Form1: TForm1
     Width = 51
     Height = 13
     Caption = 'Data login:'
+  end
+  object lblCodigo: TLabel
+    Left = 536
+    Top = 35
+    Width = 33
+    Height = 13
+    Caption = 'Codigo'
+  end
+  object Label5: TLabel
+    Left = 539
+    Top = 69
+    Width = 28
+    Height = 13
+    Caption = 'Nome'
   end
   object Edit1: TEdit
     Left = 80
@@ -107,7 +122,7 @@ object Form1: TForm1
     Text = 'edtY'
   end
   object btnDividir: TButton
-    Left = 120
+    Left = 32
     Top = 440
     Width = 121
     Height = 25
@@ -148,12 +163,46 @@ object Form1: TForm1
     OnClick = btnLoopClick
   end
   object Button1: TButton
-    Left = 592
-    Top = 64
+    Left = 576
+    Top = 192
     Width = 75
     Height = 25
     Caption = 'Button1'
     TabOrder = 11
     OnClick = Button1Click
+  end
+  object edtCodigo: TEdit
+    Left = 584
+    Top = 32
+    Width = 121
+    Height = 21
+    TabOrder = 12
+    Text = '123'
+  end
+  object edtNome: TEdit
+    Left = 584
+    Top = 64
+    Width = 121
+    Height = 21
+    TabOrder = 13
+    Text = 'Samuel David'
+  end
+  object Button2: TButton
+    Left = 432
+    Top = 304
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 14
+    OnClick = Button2Click
+  end
+  object Button4: TButton
+    Left = 192
+    Top = 432
+    Width = 75
+    Height = 25
+    Caption = 'Button4'
+    TabOrder = 15
+    OnClick = Button4Click
   end
 end

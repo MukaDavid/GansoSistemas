@@ -1,9 +1,9 @@
 object FormLogin: TFormLogin
   Left = 546
   Top = 153
-  Width = 296
-  Height = 212
   Caption = 'FormLogin'
+  ClientHeight = 307
+  ClientWidth = 280
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -50,16 +50,27 @@ object FormLogin: TFormLogin
     Top = 104
     Width = 75
     Height = 25
-    TabOrder = 2
     Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 2
   end
   object BitBtn2: TBitBtn
     Left = 152
     Top = 104
     Width = 75
     Height = 25
+    Kind = bkOK
+    NumGlyphs = 2
     TabOrder = 3
     OnClick = BitBtn2Click
-    Kind = bkOK
+  end
+  object Button1: TButton
+    Left = 96
+    Top = 208
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 4
+    OnClick = Button1Click
   end
 end

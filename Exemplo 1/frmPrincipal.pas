@@ -13,7 +13,9 @@ uses
   Forms,
   StdCtrls,
   uFuncoes,
-  uSistema, ExtCtrls;
+  uSistema, ExtCtrls,
+  Dialogs, frmLogin,
+  uExportaDadosUsuario, uExportaDadosUsuarioTxt;
 
 type
   TFormato = (frTexto, frXml, frIni, frJson);
@@ -36,6 +38,12 @@ type
     lblDataLogin: TLabel;
     Label2: TLabel;
     Button1: TButton;
+    lblCodigo: TLabel;
+    Label5: TLabel;
+    edtCodigo: TEdit;
+    edtNome: TEdit;
+    Button2: TButton;
+    Button4: TButton;
     procedure btnSalvarClick(Sender: TObject);
     procedure ExecutaTeste(Sender: TObject);
     procedure btnAddMemoClick(Sender: TObject);
@@ -44,7 +52,11 @@ type
     procedure btnLoopClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
+    FExportaDadosUsuarioTxt: TExportaDadosUsuarioTxt;
     procedure SalvarRegistro;
     procedure NotificarUsuarioDoSalvamento;
     function dividir(pX, pY: integer): integer;
@@ -72,10 +84,6 @@ var
   Form1: TForm1;    
 
 implementation
-
-uses
-  Dialogs, frmLogin, uExportaDadosUsuario;
-
 {$R *.dfm}
 
 procedure TForm1.btnSalvarClick(Sender: TObject);
@@ -172,15 +180,8 @@ begin
 end;
 
 procedure TForm1.GerarUserText;
-var
-  lExportaDadosUsuario: TExportaDadosUsuario;
 begin
-  lExportaDadosUsuario := TExportaDadosUsuario.Create(Sistema.UsuarioLogado);
-  try
-    Memo1.Text := lExportaDadosUsuario.Dados;
-  finally
-    lExportaDadosUsuario.free;
-  end;
+  Memo1.Text := FExportaDadosUsuarioTxt.Dados;
 
   //Memo1.Text := GerarUserText(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
 end;
@@ -236,7 +237,7 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  FormLogin := TFormLogin.Create(Application);
+  {FormLogin := TFormLogin.Create(Application);
   try
     if FormLogin.ShowModal = mrCancel then
     begin
@@ -248,7 +249,11 @@ begin
     end;
   finally
     FormLogin.Free;
-  end;       
+  end;}
+
+  Sistema.UsuarioLogado.Codigo := StrToInt(edtCodigo.text);
+  Sistema.UsuarioLogado.Nome   := edtNome.Text;
+  FExportaDadosUsuarioTxt := TExportaDadosUsuarioTxt.Create(Sistema.UsuarioLogado);
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -268,6 +273,30 @@ begin
   //end;
 
   ShowMessage('Teste');
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  FExportaDadosUsuarioTxt.Free;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+//  FExportaDadosUsuarioTxt.
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+var
+  lResultado, lx, lY : integer;
+begin
+  lx := StrToInt(edtX.Text);
+  lY := StrToInt(edtY.Text);
+  lResultado := Somar(lx,ly);
+
+  Memo1.Lines.Add('Total: '+IntToStr(lResultado));
+
+
+  
 end;
 
 end.
