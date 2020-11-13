@@ -17,12 +17,12 @@ type
     destructor Destroy; override;
     procedure MostrarDados; virtual;
     property Dados: string read GetDados;
+
+    class function ObterDados(pUsuario: TUsuario): string;
   end;
 
-  TExportaDadosUsuarioXml = class(TExportaDadosUsuario)
-  protected
-    procedure GerarDados; override;
-  end;
+  TExportaDadosUsuarioClass = class of TExportaDadosUsuario;
+
 
 implementation
 
@@ -56,18 +56,17 @@ begin
   ShowMessage('TExportaDadosUsuario');
 end;
 
-{ TExportaDadosUsuarioXml }
 
-procedure TExportaDadosUsuarioXml.GerarDados;
+class function TExportaDadosUsuario.ObterDados(pUsuario: TUsuario): string;
+var
+  lExportaDadosUsuario: TExportaDadosUsuario;
 begin
-  inherited;
-  FDados.Add('<?xml version="1.0"?>');
-  FDados.Add('<Company>');
-  FDados.Add('  <Employee>');
-  FDados.Add('      <Codigo>'+IntToStr(FUsuario.Codigo)+'</Codigo>');
-  FDados.Add('      <Name>'+FUsuario.Nome+'</Name>');
-  FDados.Add('  </Employee>');
-  FDados.Add('</Company>');
+  lExportaDadosUsuario := Self.Create(pUsuario);
+  try
+    result := lExportaDadosUsuario.Dados;
+  finally
+    lExportaDadosUsuario.Free;
+  end;
 end;
 
 end.

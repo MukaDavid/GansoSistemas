@@ -3,32 +3,20 @@ unit uFuncoes;
 interface
 
 type
-  TMinhaClasse = class
-    procedure Testar;
+  TValidacao = class
   private
-    procedure ExibirResultado(pX, pY: integer);
+    FUltimoCpf: string;
+  public
+    class function ValidarCpf(pCpf: string): boolean;
   end;
 
-  procedure ValidarCpf(pCpf: string);
-
-
 implementation
-{ TMinhaClasse }
 
-procedure TMinhaClasse.Testar;
+{ TValidacao }
+
+class function TValidacao.ValidarCpf(pCpf: string): boolean;
 begin
-
+  Result := length(pCpf) = 11;
 end;
-
-procedure TMinhaClasse.ExibirResultado(pX, pY: integer);
-begin
-
-end;
-
-procedure ValidarCpf(pCpf: string);
-begin
-
-end;   
-
 
 end.

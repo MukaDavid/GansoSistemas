@@ -1,4 +1,4 @@
-unit uExportaDadosUsuarioTxt;
+unit uExportaDadosUsuarioINI;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   uExportaDadosUsuario, SysUtils, dialogs;
 
 type
-  TExportaDadosUsuarioTxt = class(TExportaDadosUsuario)
+  TExportaDadosUsuarioINI = class(TExportaDadosUsuario)
   protected
     procedure GerarDados; override;
   public
@@ -14,21 +14,22 @@ type
   end;
 
 implementation
-{ TExportaDadosUsuarioTxt }
 
+{ TExportaDadosUsuarioINI }
 
-procedure TExportaDadosUsuarioTxt.GerarDados;
+procedure TExportaDadosUsuarioINI.GerarDados;
 begin
   inherited;
-  FDados.Add('USUARIO');
+  FDados.Add('[USUARIO]');
   FDados.Add('Codigo='+ IntToStr(FUsuario.Codigo));
   FDados.Add('Nome='+FUsuario.Nome);
 end;
 
-procedure TExportaDadosUsuarioTxt.MostrarDados;
+procedure TExportaDadosUsuarioINI.MostrarDados;
 begin
   inherited;
-  ShowMessage('TExportaDadosUsuarioTxt');
+  ShowMessage('TExportaDadosUsuarioINI');
 end;
 
 end.
+ 

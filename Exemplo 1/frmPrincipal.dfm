@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 428
-  Top = 260
+  Left = 663
+  Top = 213
   Width = 932
-  Height = 575
+  Height = 605
   Caption = 'Form1'
   Color = clMoneyGreen
   Font.Charset = DEFAULT_CHARSET
@@ -13,7 +13,6 @@ object Form1: TForm1
   OldCreateOrder = False
   OnClick = btnSalvarClick
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -64,6 +63,13 @@ object Form1: TForm1
     Width = 28
     Height = 13
     Caption = 'Nome'
+  end
+  object Label4: TLabel
+    Left = 536
+    Top = 128
+    Width = 19
+    Height = 13
+    Caption = 'Cpf:'
   end
   object Edit1: TEdit
     Left = 80
@@ -162,14 +168,14 @@ object Form1: TForm1
     TabOrder = 10
     OnClick = btnLoopClick
   end
-  object Button1: TButton
-    Left = 576
-    Top = 192
+  object btnLogin: TButton
+    Left = 288
+    Top = 360
     Width = 75
     Height = 25
-    Caption = 'Button1'
+    Caption = 'btnLogin'
     TabOrder = 11
-    OnClick = Button1Click
+    OnClick = btnLoginClick
   end
   object edtCodigo: TEdit
     Left = 584
@@ -188,8 +194,8 @@ object Form1: TForm1
     Text = 'Samuel David'
   end
   object Button2: TButton
-    Left = 432
-    Top = 304
+    Left = 384
+    Top = 360
     Width = 75
     Height = 25
     Caption = 'Button2'
@@ -204,5 +210,34 @@ object Form1: TForm1
     Caption = 'Button4'
     TabOrder = 15
     OnClick = Button4Click
+  end
+  object edtCpf: TEdit
+    Left = 559
+    Top = 124
+    Width = 121
+    Height = 21
+    TabOrder = 16
+  end
+  object Button5: TButton
+    Left = 692
+    Top = 123
+    Width = 75
+    Height = 25
+    Caption = 'Validar'
+    TabOrder = 17
+    OnClick = Button5Click
+  end
+  object stbInfo: TStatusBar
+    Left = 0
+    Top = 547
+    Width = 916
+    Height = 19
+    Panels = <
+      item
+        Width = 500
+      end
+      item
+        Width = 50
+      end>
   end
 end

@@ -15,7 +15,11 @@ uses
   uFuncoes,
   uSistema, ExtCtrls,
   Dialogs, frmLogin,
-  uExportaDadosUsuario, uExportaDadosUsuarioTxt;
+  uExportaDadosUsuario,
+  uExportaDadosUsuarioTxt,
+  uExportaDadosUsuarioXml,
+  uExportaDadosUsuarioIni,
+  uExportaDadosUsuarioJson, ComCtrls;
 
 type
   TFormato = (frTexto, frXml, frIni, frJson);
@@ -37,13 +41,17 @@ type
     btnLoop: TButton;
     lblDataLogin: TLabel;
     Label2: TLabel;
-    Button1: TButton;
+    btnLogin: TButton;
     lblCodigo: TLabel;
     Label5: TLabel;
     edtCodigo: TEdit;
     edtNome: TEdit;
     Button2: TButton;
     Button4: TButton;
+    edtCpf: TEdit;
+    Label4: TLabel;
+    Button5: TButton;
+    stbInfo: TStatusBar;
     procedure btnSalvarClick(Sender: TObject);
     procedure ExecutaTeste(Sender: TObject);
     procedure btnAddMemoClick(Sender: TObject);
@@ -51,30 +59,21 @@ type
     procedure btnGerarFormatoClick(Sender: TObject);
     procedure btnLoopClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure btnLoginClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
   private
-    FExportaDadosUsuarioTxt: TExportaDadosUsuarioTxt;
     procedure SalvarRegistro;
     procedure NotificarUsuarioDoSalvamento;
     function dividir(pX, pY: integer): integer;
-    { Private declarations }
     procedure AdicionarItensNoMemo; overload;
     procedure AdicionarItensNoMemo(pMemo: TMemo; pEdit: TEdit); overload;
     function Somar(pX, pY : integer): integer;
 
-    procedure GerarUserIni;  overload;
-    procedure GerarUserJson; overload;
-    procedure GerarUserText; overload;
-    procedure GerarUserXml;  overload;
-
+    procedure ExibirDados(pExportaDadosUsuarioClass: TExportaDadosUsuarioClass);
     procedure GerarUserFormatado(pFormato: TFormato);
-    function GerarUserIni(pCodigo: integer; pNome: string): string;  overload;
-    function GerarUserXml(pCodigo: integer; pNome: string): string;  overload;
-    function GerarUserJson(pCodigo: integer; pNome: string): string; overload;
-    function GerarUserText(pCodigo: integer; pNome: string): string; overload;
+    procedure AtualizarNomeUsuario(pNomeUsuario: string);
 
 
     { Public declarations }
@@ -160,35 +159,13 @@ end;
 procedure TForm1.GerarUserFormatado(pFormato: TFormato);
 begin
   case pFormato of
-    frTexto: GerarUserText;
-    frXml:   GerarUserXml;
-    frIni:   GerarUserIni;
-    frJson:  GerarUserJson;
+    frTexto: ExibirDados(TExportaDadosUsuarioIni);
+    frXml:   ExibirDados(TExportaDadosUsuarioXml);
+    frIni:   ExibirDados(TExportaDadosUsuarioTxt);
+    frJson:  ExibirDados(TExportaDadosUsuarioJson);
   else
     ShowMessage('Opção não suportada');
   end;
-end;
-
-procedure TForm1.GerarUserIni;
-begin
-  Memo1.Text := GerarUserIni(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
-end;
-
-procedure TForm1.GerarUserJson;
-begin
-  Memo1.Text := GerarUserJson(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
-end;
-
-procedure TForm1.GerarUserText;
-begin
-  Memo1.Text := FExportaDadosUsuarioTxt.Dados;
-
-  //Memo1.Text := GerarUserText(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
-end;
-
-procedure TForm1.GerarUserXml;
-begin
-  Memo1.Text := GerarUserXml(Sistema.UsuarioLogado.Codigo, Sistema.UsuarioLogado.Nome);
 end;
 
 procedure TForm1.btnLoopClick(Sender: TObject);
@@ -201,42 +178,10 @@ begin
   end;
 end;
 
-function TForm1.GerarUserIni(pCodigo: integer; pNome: string): string;
-begin
-  Result := '[USUARIO]'+sLineBreak+
-            'Codigo='+ IntToStr(pCodigo)+sLineBreak+
-            'Nome='+pNome;
-end;
-
-function TForm1.GerarUserXml(pCodigo: integer; pNome: string): string;
-begin
-  Result := '<?xml version="1.0"?>'+sLineBreak+
-            '<Company>'+sLineBreak+
-            '  <Employee>'+sLineBreak+
-            '      <Codigo>'+IntToStr(pCodigo)+'</Codigo>'+sLineBreak+
-            '      <Name>'+pNome+'</Name>'+sLineBreak+
-            '  </Employee>'+sLineBreak+
-            '</Company>';
-end;
-
-function TForm1.GerarUserText(pCodigo: integer; pNome: string): string;
-begin
-  Result := 'USUARIO'+sLineBreak+
-            'Codigo='+ IntToStr(pCodigo)+sLineBreak+
-            'Nome='+pNome;
-end;
-
-function TForm1.GerarUserJson(pCodigo: integer; pNome: string): string;
-begin
-  Result := '{'+sLineBreak+
-            '  "Titulo": "USUARIO",'+sLineBreak+
-            '  "Codigo":'+IntToStr(pCodigo)+','+sLineBreak+
-            '  "Nome": "'+pNome+'"'+sLineBreak+
-            '}';
-end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  btnAddMemo.OnClick := btnAddMemoClick;
   {FormLogin := TFormLogin.Create(Application);
   try
     if FormLogin.ShowModal = mrCancel then
@@ -253,10 +198,10 @@ begin
 
   Sistema.UsuarioLogado.Codigo := StrToInt(edtCodigo.text);
   Sistema.UsuarioLogado.Nome   := edtNome.Text;
-  FExportaDadosUsuarioTxt := TExportaDadosUsuarioTxt.Create(Sistema.UsuarioLogado);
+  Sistema.UsuarioLogado.OnNomeAlterado := AtualizarNomeUsuario;
 end;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.btnLoginClick(Sender: TObject);
 begin
   FormLogin := TFormLogin.Create(Application);
   //try
@@ -275,11 +220,6 @@ begin
   ShowMessage('Teste');
 end;
 
-procedure TForm1.FormDestroy(Sender: TObject);
-begin
-  FExportaDadosUsuarioTxt.Free;
-end;
-
 procedure TForm1.Button2Click(Sender: TObject);
 begin
 //  FExportaDadosUsuarioTxt.
@@ -294,9 +234,34 @@ begin
   lResultado := Somar(lx,ly);
 
   Memo1.Lines.Add('Total: '+IntToStr(lResultado));
+end;
 
+procedure TForm1.ExibirDados(pExportaDadosUsuarioClass: TExportaDadosUsuarioClass);
+//var
+//  lExportaDadosUsuario: TExportaDadosUsuario;
+begin
+{  lExportaDadosUsuario := pExportaDadosUsuarioClass.Create(Sistema.UsuarioLogado);
+  try
+    Memo1.Text := lExportaDadosUsuario.Dados;
+  finally
+    lExportaDadosUsuario.Free;
+  end;  }
 
-  
+  Memo1.Text := pExportaDadosUsuarioClass.ObterDados(Sistema.UsuarioLogado);
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+begin
+   if TValidacao.ValidarCpf(edtCpf.Text) then
+     ShowMessage('CPF Válido!')
+   else
+     ShowMessage('CPF Inválido!');
+
+end;
+
+procedure TForm1.AtualizarNomeUsuario(pNomeUsuario: string);
+begin
+  stbInfo.Panels[0].Text := pNomeUsuario;
 end;
 
 end.

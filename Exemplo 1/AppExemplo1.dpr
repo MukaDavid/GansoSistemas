@@ -8,7 +8,10 @@ uses
   frmLogin in 'frmLogin.pas' {FormLogin},
   uExportaDadosUsuario in 'uExportaDadosUsuario.pas',
   uUsuario in 'uUsuario.pas',
-  uExportaDadosUsuarioTxt in 'uExportaDadosUsuarioTxt.pas';
+  uExportaDadosUsuarioTxt in 'uExportaDadosUsuarioTxt.pas',
+  uExportaDadosUsuarioINI in 'uExportaDadosUsuarioINI.pas',
+  uExportaDadosUsuarioJson in 'uExportaDadosUsuarioJson.pas',
+  uExportaDadosUsuarioXML in 'uExportaDadosUsuarioXML.pas';
 
 {$R *.res}
 
