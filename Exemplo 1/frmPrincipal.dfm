@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 663
-  Top = 213
-  Width = 932
+  Left = 455
+  Top = 222
+  Width = 949
   Height = 605
   Caption = 'Form1'
   Color = clMoneyGreen
@@ -13,6 +13,7 @@ object Form1: TForm1
   OldCreateOrder = False
   OnClick = btnSalvarClick
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -88,7 +89,7 @@ object Form1: TForm1
     OnClick = btnAddMemoClick
   end
   object Memo1: TMemo
-    Left = 24
+    Left = 32
     Top = 56
     Width = 281
     Height = 281
@@ -230,7 +231,7 @@ object Form1: TForm1
   object stbInfo: TStatusBar
     Left = 0
     Top = 547
-    Width = 916
+    Width = 933
     Height = 19
     Panels = <
       item
@@ -239,5 +240,31 @@ object Form1: TForm1
       item
         Width = 50
       end>
+  end
+  object Button1: TButton
+    Left = 692
+    Top = 160
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 19
+    OnClick = Button1Click
+  end
+  object ListBox1: TListBox
+    Left = 504
+    Top = 240
+    Width = 153
+    Height = 289
+    ItemHeight = 13
+    TabOrder = 20
+  end
+  object Button6: TButton
+    Left = 696
+    Top = 240
+    Width = 75
+    Height = 25
+    Caption = 'Button6'
+    TabOrder = 21
+    OnClick = Button6Click
   end
 end

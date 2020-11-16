@@ -19,7 +19,7 @@ uses
   uExportaDadosUsuarioTxt,
   uExportaDadosUsuarioXml,
   uExportaDadosUsuarioIni,
-  uExportaDadosUsuarioJson, ComCtrls;
+  uExportaDadosUsuarioJson, ComCtrls, uUsuario;
 
 type
   TFormato = (frTexto, frXml, frIni, frJson);
@@ -52,6 +52,9 @@ type
     Label4: TLabel;
     Button5: TButton;
     stbInfo: TStatusBar;
+    Button1: TButton;
+    ListBox1: TListBox;
+    Button6: TButton;
     procedure btnSalvarClick(Sender: TObject);
     procedure ExecutaTeste(Sender: TObject);
     procedure btnAddMemoClick(Sender: TObject);
@@ -63,6 +66,9 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
   private
     procedure SalvarRegistro;
     procedure NotificarUsuarioDoSalvamento;
@@ -74,13 +80,14 @@ type
     procedure ExibirDados(pExportaDadosUsuarioClass: TExportaDadosUsuarioClass);
     procedure GerarUserFormatado(pFormato: TFormato);
     procedure AtualizarNomeUsuario(pNomeUsuario: string);
+    procedure ChamarLogin;
 
 
     { Public declarations }
   end;
 
 var
-  Form1: TForm1;    
+  Form1: TForm1;
 
 implementation
 {$R *.dfm}
@@ -181,20 +188,8 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  btnAddMemo.OnClick := btnAddMemoClick;
-  {FormLogin := TFormLogin.Create(Application);
-  try
-    if FormLogin.ShowModal = mrCancel then
-    begin
-      ShowMessage('Login não atribuido');
-      Application.Terminate;
-    end else begin
-      Application.ProcessMessages;
-      lblDataLogin.Caption := FormatDateTime('DD/MM/YYYY HH:NN:SS', FormLogin.DataLogin);
-    end;
-  finally
-    FormLogin.Free;
-  end;}
+  //ChamarLogin;
+
 
   Sistema.UsuarioLogado.Codigo := StrToInt(edtCodigo.text);
   Sistema.UsuarioLogado.Nome   := edtNome.Text;
@@ -219,6 +214,24 @@ begin
 
   ShowMessage('Teste');
 end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  lUsuario1, lUsuario2 : TUsuario;
+begin
+  lUsuario1 := TUsuario.Create;
+  lUsuario2 := TUsuario.Create;
+  lUsuario2 := lUsuario1;
+
+  if Assigned(lUsuario1) then
+    FreeAndNil(lUsuario1);
+
+  if Assigned(lUsuario2) then
+    FreeAndNil(lUsuario2);
+
+
+end;
+
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
@@ -262,6 +275,77 @@ end;
 procedure TForm1.AtualizarNomeUsuario(pNomeUsuario: string);
 begin
   stbInfo.Panels[0].Text := pNomeUsuario;
+end;
+
+procedure TForm1.ChamarLogin;
+begin
+  FormLogin := TFormLogin.Create(Application);
+  try
+    if FormLogin.ShowModal = mrCancel then
+    begin
+      ShowMessage('Login não atribuido');
+      Application.Terminate;
+    end
+    else
+    begin
+      Application.ProcessMessages;
+      lblDataLogin.Caption := FormatDateTime('DD/MM/YYYY HH:NN:SS', FormLogin.DataLogin);
+    end;
+  finally
+    FormLogin.Free;
+  end;
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+var
+  lUsuario : TUsuario;
+begin
+  lUsuario := TUsuario.Create;
+  lUsuario.Codigo := 1;
+  lUsuario.Nome := 'Ana';
+  ListBox1.Items.Add(IntToStr(integer(lUsuario)));
+
+  lUsuario := TUsuario.Create;
+  lUsuario.Codigo := 2;
+  lUsuario.Nome := 'Bia';
+  ListBox1.Items.Add(IntToStr(integer(lUsuario)));
+
+  lUsuario := TUsuario.Create;
+  lUsuario.Codigo := 3;
+  lUsuario.Nome := 'Carol';
+  ListBox1.Items.Add(IntToStr(integer(lUsuario)));
+
+  lUsuario := TUsuario.Create;
+  lUsuario.Codigo := 4;
+  lUsuario.Nome := 'Daniela';
+  ListBox1.Items.Add(IntToStr(integer(lUsuario)));
+
+  lUsuario := TUsuario.Create;
+  lUsuario.Codigo := 5;
+  lUsuario.Nome := 'Elize';
+  ListBox1.Items.Add(IntToStr(integer(lUsuario)));
+
+
+  Edit1.Handle
+end;
+
+procedure TForm1.Button6Click(Sender: TObject);
+var
+  lUsuario : TUsuario;
+  lIdMemoria: integer;
+begin
+  if ListBox1.ItemIndex > -1 then
+  begin
+    lIdMemoria := StrToInt(ListBox1.Items[ListBox1.ItemIndex]);
+
+    lUsuario := TUsuario(lIdMemoria);
+
+    edtCodigo.Text := IntToStr(lUsuario.Codigo);
+
+    edtNome.Text := lUsuario.Nome;
+  end;
+
+
 end;
 
 end.
