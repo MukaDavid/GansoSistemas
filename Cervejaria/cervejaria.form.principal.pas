@@ -29,14 +29,15 @@ uses cervejaria.datamodule.conexao;
 {$R *.dfm}
 
 procedure TfrmPrincipal.btnCadMarcaClick(Sender: TObject);
+var
+  lfrmPesquisaMarca : TfrmPesquisaMarca;
+  ldmdCadastroMarca : TdmdCadastroMarca;
 begin
-  if frmPesquisaMarca = nil then
-  begin
-    dmdCadastroMarca := TdmdCadastroMarca.Create(Application);
-    frmPesquisaMarca := TfrmPesquisaMarca.Create(Application);
-  end;
+  lfrmPesquisaMarca := TfrmPesquisaMarca.Create(Application);
+  ldmdCadastroMarca := TdmdCadastroMarca.Create(lfrmPesquisaMarca);
+  lfrmPesquisaMarca.dscPesquisa.DataSet := ldmdCadastroMarca.qryPesquisa;
 
-  frmPesquisaMarca.Show;
+  lfrmPesquisaMarca.Show;
 end;
 
 end.

@@ -1,6 +1,6 @@
 object frmPesquisaMarca: TfrmPesquisaMarca
-  Left = 0
-  Top = 0
+  Left = 884
+  Top = 213
   Width = 778
   Height = 463
   Caption = 'frmPesquisaMarca'
@@ -11,6 +11,8 @@ object frmPesquisaMarca: TfrmPesquisaMarca
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -29,23 +31,31 @@ object frmPesquisaMarca: TfrmPesquisaMarca
       DataSource = dscPesquisa
       TabOrder = 0
     end
-    object Button2: TButton
+    object btnIncluir: TButton
       Left = 11
       Top = 11
       Width = 75
       Height = 34
       Caption = 'btnIncluir'
       TabOrder = 1
-      OnClick = Button2Click
     end
-    object btSalvar: TButton
-      Left = 480
-      Top = 15
+    object btnEditar: TButton
+      Left = 96
+      Top = 12
       Width = 75
-      Height = 25
-      Caption = 'Salvar'
+      Height = 33
+      Caption = 'btnEditar'
       TabOrder = 2
-      OnClick = btSalvarClick
+      OnClick = btnEditarClick
+    end
+    object btnRefresh: TButton
+      Left = 296
+      Top = 13
+      Width = 75
+      Height = 33
+      Caption = 'btnRefresh'
+      TabOrder = 3
+      OnClick = btnRefreshClick
     end
   end
   object StatusBar1: TStatusBar
@@ -106,9 +116,8 @@ object frmPesquisaMarca: TfrmPesquisaMarca
     end
   end
   object dscPesquisa: TDataSource
-    AutoEdit = False
     DataSet = dmdCadastroMarca.qryPesquisa
-    Left = 56
-    Top = 192
+    Left = 216
+    Top = 8
   end
 end

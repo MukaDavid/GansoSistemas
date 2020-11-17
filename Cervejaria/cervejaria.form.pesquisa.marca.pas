@@ -3,9 +3,11 @@ unit cervejaria.form.pesquisa.marca;
 interface
 
 uses
-  forms, cervejaria.datamodule.cadastro.marca,
+  forms,
   cervejaria.datamodule.conexao, DB, StdCtrls, Controls, Grids, DBGrids,
-  ComCtrls, Mask, DBCtrls, Classes, ExtCtrls;
+  ComCtrls, Mask, DBCtrls, Classes, ExtCtrls,
+  cervejaria.form.cadastro.marca,
+  cervejaria.datamodule.cadastro.marca;
 
 type
   TfrmPesquisaMarca = class(TForm)
@@ -18,11 +20,15 @@ type
     Button1: TButton;
     DBEdit1: TDBEdit;
     dscPesquisa: TDataSource;
-    Button2: TButton;
-    btSalvar: TButton;
-    procedure Button2Click(Sender: TObject);
-    procedure btSalvarClick(Sender: TObject);
+    btnIncluir: TButton;
+    btnEditar: TButton;
+    btnRefresh: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnRefreshClick(Sender: TObject);
   private
+    procedure RefreshDataDet;
     { Private declarations }
   public
     { Public declarations }
@@ -35,16 +41,62 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmPesquisaMarca.btSalvarClick(Sender: TObject);
+procedure TfrmPesquisaMarca.FormShow(Sender: TObject);
 begin
-  if dmdCadastroMarca.qryPesquisa.State in dsEditModes then
-     dmdCadastroMarca.qryPesquisa.Post;
+  dscPesquisa.DataSet.Open;
 end;
 
-procedure TfrmPesquisaMarca.Button2Click(Sender: TObject);
+procedure TfrmPesquisaMarca.btnEditarClick(Sender: TObject);
+var
+  ldmdCadastroMarca : TdmdCadastroMarca;
+  lfrmCadastroMarca : TfrmCadastroMarca;
 begin
-  dmdCadastroMarca.qryPesquisa.Append;
-  dmdCadastroMarca.qryPesquisa.FieldByName('MRC_ID').AsInteger := dmdConexao.GerarId('SEQ_MRC');
+  if dscPesquisa.DataSet.IsEmpty then
+    exit;
+
+  lfrmCadastroMarca := TfrmCadastroMarca.Create(self);
+  ldmdCadastroMarca := TdmdCadastroMarca.Create(lfrmCadastroMarca);
+
+  ldmdCadastroMarca.ibdCadastro.Close;
+  ldmdCadastroMarca.ibdCadastro.ParamByName('MRC_ID').AsInteger := dscPesquisa.DataSet.FieldByName('MRC_ID').AsInteger;
+  ldmdCadastroMarca.ibdCadastro.Open;
+
+  lfrmCadastroMarca.dscCadastro.DataSet := ldmdCadastroMarca.ibdCadastro;
+  lfrmCadastroMarca.OnRefreshDataset := RefreshDataDet;
+  lfrmCadastroMarca.Show;
+
+end;
+
+procedure TfrmPesquisaMarca.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+procedure TfrmPesquisaMarca.btnRefreshClick(Sender: TObject);
+begin
+  RefreshDataDet;
+end;
+
+procedure TfrmPesquisaMarca.RefreshDataDet;
+var
+  lBookmark : String;
+begin
+  if dscPesquisa.DataSet.IsEmpty then
+    exit;
+
+  lBookmark := dscPesquisa.DataSet.Bookmark;
+  try
+    dscPesquisa.DataSet.DisableControls;
+
+    dscPesquisa.DataSet.Close;
+    dscPesquisa.DataSet.Open;
+
+    dscPesquisa.DataSet.Bookmark := lBookmark;
+  finally
+    dscPesquisa.DataSet.EnableControls;
+  end;
+
 end;
 
 end.

@@ -4,11 +4,15 @@ interface
 
 uses
   SysUtils, Classes, DB, IBCustomDataSet, IBQuery,
-  cervejaria.datamodule.conexao;
+  cervejaria.datamodule.conexao, IBUpdateSQL, DBClient, Provider;
 
 type
   TdmdCadastroMarca = class(TDataModule)
     qryPesquisa: TIBQuery;
+    qryPesquisaMRC_ID: TIntegerField;
+    qryPesquisaMRC_CODIGO: TIBStringField;
+    qryPesquisaMRC_NOME: TIBStringField;
+    ibdCadastro: TIBDataSet;
   private
     { Private declarations }
   public
@@ -19,6 +23,8 @@ var
   dmdCadastroMarca: TdmdCadastroMarca;
 
 implementation
+
+
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
