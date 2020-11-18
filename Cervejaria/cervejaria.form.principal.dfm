@@ -1,6 +1,6 @@
 object frmPrincipal: TfrmPrincipal
-  Left = 383
-  Top = 240
+  Left = 631
+  Top = 202
   Width = 1195
   Height = 290
   Caption = 'frmPrincipal'
@@ -29,6 +29,24 @@ object frmPrincipal: TfrmPrincipal
       Caption = 'Marca'
       TabOrder = 0
       OnClick = btnCadMarcaClick
+    end
+    object btnCategoria: TButton
+      Left = 84
+      Top = 4
+      Width = 75
+      Height = 50
+      Caption = 'Categoria'
+      TabOrder = 1
+      OnClick = btnCategoriaClick
+    end
+    object btnCerveja: TButton
+      Left = 164
+      Top = 4
+      Width = 75
+      Height = 50
+      Caption = 'Cervejas'
+      TabOrder = 2
+      OnClick = btnCervejaClick
     end
   end
 end

@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, DB, StdCtrls, Mask, DBCtrls, Buttons,
-  ExtCtrls, cervejaria.datamodule.conexao;
+  Dialogs, DB, StdCtrls, Mask, DBCtrls, Buttons, DBClient,
+  ExtCtrls, cervejaria.datamodule.conexao, cervejaria.datamodule.cadastro.marca;
 
 type
   TRefreshMetodo = procedure of object;
@@ -44,6 +44,9 @@ begin
   if dscCadastro.State in dsEditModes then
   begin
     dscCadastro.DataSet.Post;
+    if dscCadastro.DataSet is TClientDataSet then
+      TClientDataSet(dscCadastro.DataSet).ApplyUpdates(0);
+
     dmdConexao.Commit;
     if Assigned(FOnRefreshDataset) then
       FOnRefreshDataset;

@@ -13,6 +13,16 @@ type
     qryPesquisaMRC_CODIGO: TIBStringField;
     qryPesquisaMRC_NOME: TIBStringField;
     ibdCadastro: TIBDataSet;
+    ibdCadastroMRC_ID: TIntegerField;
+    ibdCadastroMRC_CODIGO: TIBStringField;
+    ibdCadastroMRC_NOME: TIBStringField;
+    ibdCadastroCod_nome: TStringField;
+    qryCadastro: TIBQuery;
+    cdsCadastro: TClientDataSet;
+    dspCadastro: TDataSetProvider;
+    cdsCadastroMRC_ID: TIntegerField;
+    cdsCadastroMRC_CODIGO: TStringField;
+    cdsCadastroMRC_NOME: TStringField;
   private
     { Private declarations }
   public
@@ -23,7 +33,6 @@ var
   dmdCadastroMarca: TdmdCadastroMarca;
 
 implementation
-
 
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}

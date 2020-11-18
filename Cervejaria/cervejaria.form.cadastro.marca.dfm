@@ -1,8 +1,8 @@
 object frmCadastroMarca: TfrmCadastroMarca
-  Left = 869
-  Top = 223
+  Left = 797
+  Top = 245
   Width = 579
-  Height = 260
+  Height = 348
   Caption = 'frmCadastroMarca'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -67,7 +67,7 @@ object frmCadastroMarca: TfrmCadastroMarca
   end
   object pnlConfirmacao: TPanel
     Left = 0
-    Top = 160
+    Top = 248
     Width = 563
     Height = 61
     Align = alBottom
@@ -92,6 +92,7 @@ object frmCadastroMarca: TfrmCadastroMarca
     end
   end
   object dscCadastro: TDataSource
+    DataSet = dmdCadastroMarca.cdsCadastro
     Left = 32
     Top = 24
   end

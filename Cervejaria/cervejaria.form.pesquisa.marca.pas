@@ -27,6 +27,7 @@ type
     procedure btnEditarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
   private
     procedure RefreshDataDet;
     { Private declarations }
@@ -57,14 +58,21 @@ begin
   lfrmCadastroMarca := TfrmCadastroMarca.Create(self);
   ldmdCadastroMarca := TdmdCadastroMarca.Create(lfrmCadastroMarca);
 
+  {
   ldmdCadastroMarca.ibdCadastro.Close;
   ldmdCadastroMarca.ibdCadastro.ParamByName('MRC_ID').AsInteger := dscPesquisa.DataSet.FieldByName('MRC_ID').AsInteger;
   ldmdCadastroMarca.ibdCadastro.Open;
+  }
 
-  lfrmCadastroMarca.dscCadastro.DataSet := ldmdCadastroMarca.ibdCadastro;
+  ldmdCadastroMarca.cdsCadastro.Close;
+  ldmdCadastroMarca.cdsCadastro.Params.ParamByName('MRC_ID').AsInteger := dscPesquisa.DataSet.FieldByName('MRC_ID').AsInteger;
+  ldmdCadastroMarca.cdsCadastro.Open;
+
+
+  //lfrmCadastroMarca.dscCadastro.DataSet := ldmdCadastroMarca.ibdCadastro;
+  lfrmCadastroMarca.dscCadastro.DataSet := ldmdCadastroMarca.cdsCadastro;
   lfrmCadastroMarca.OnRefreshDataset := RefreshDataDet;
   lfrmCadastroMarca.Show;
-
 end;
 
 procedure TfrmPesquisaMarca.FormClose(Sender: TObject;
@@ -97,6 +105,29 @@ begin
     dscPesquisa.DataSet.EnableControls;
   end;
 
+end;
+
+procedure TfrmPesquisaMarca.btnIncluirClick(Sender: TObject);
+var
+  ldmdCadastroMarca : TdmdCadastroMarca;
+  lfrmCadastroMarca : TfrmCadastroMarca;
+begin
+  if dscPesquisa.DataSet.IsEmpty then
+    exit;
+
+  lfrmCadastroMarca := TfrmCadastroMarca.Create(self);
+  ldmdCadastroMarca := TdmdCadastroMarca.Create(lfrmCadastroMarca);
+
+  ldmdCadastroMarca.cdsCadastro.Close;
+  ldmdCadastroMarca.cdsCadastro.Params.ParamByName('MRC_ID').AsInteger := -1;
+  ldmdCadastroMarca.cdsCadastro.Open;
+
+  ldmdCadastroMarca.cdsCadastro.Append;
+  ldmdCadastroMarca.cdsCadastro.FieldByName('MRC_ID').AsInteger := dmdConexao.GerarId('SEQ_MRC');
+  lfrmCadastroMarca.dscCadastro.DataSet := ldmdCadastroMarca.ibdCadastro;
+  lfrmCadastroMarca.dscCadastro.DataSet := ldmdCadastroMarca.cdsCadastro;
+  lfrmCadastroMarca.OnRefreshDataset := RefreshDataDet;
+  lfrmCadastroMarca.Show;
 end;
 
 end.

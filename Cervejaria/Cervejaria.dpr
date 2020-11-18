@@ -6,7 +6,11 @@ uses
   cervejaria.datamodule.conexao in 'cervejaria.datamodule.conexao.pas' {dmdConexao: TDataModule},
   cervejaria.form.pesquisa.marca in 'cervejaria.form.pesquisa.marca.pas' {frmPesquisaMarca},
   cervejaria.datamodule.cadastro.marca in 'cervejaria.datamodule.cadastro.marca.pas' {dmdCadastroMarca: TDataModule},
-  cervejaria.form.cadastro.marca in 'cervejaria.form.cadastro.marca.pas' {frmCadastroMarca};
+  cervejaria.form.cadastro.marca in 'cervejaria.form.cadastro.marca.pas' {frmCadastroMarca},
+  cervejaria.form.pesquisa in 'cervejaria.form.pesquisa.pas' {frmPesquisa},
+  cervejaria.datamodule.cadastro.base in 'cervejaria.datamodule.cadastro.base.pas' {dmdCadastroBase: TDataModule},
+  cervejaria.datamodule.cadastro.Categoria in 'cervejaria.datamodule.cadastro.Categoria.pas' {dmdCadastroCategoria: TDataModule},
+  cervejaria.datamodule.cadastro.cerveja in 'cervejaria.datamodule.cadastro.cerveja.pas' {dmdCadastroCerveja: TDataModule};
 
 {$R *.res}
 
@@ -14,6 +18,6 @@ begin
   Application.Initialize;
   Application.CreateForm(TdmdConexao, dmdConexao);
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TfrmCadastroMarca, frmCadastroMarca);
+  Application.CreateForm(TdmdCadastroCerveja, dmdCadastroCerveja);
   Application.Run;
 end.

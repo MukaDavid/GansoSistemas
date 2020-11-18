@@ -1,6 +1,6 @@
 object frmPesquisaMarca: TfrmPesquisaMarca
-  Left = 884
-  Top = 213
+  Left = 534
+  Top = 200
   Width = 778
   Height = 463
   Caption = 'frmPesquisaMarca'
@@ -38,6 +38,7 @@ object frmPesquisaMarca: TfrmPesquisaMarca
       Height = 34
       Caption = 'btnIncluir'
       TabOrder = 1
+      OnClick = btnIncluirClick
     end
     object btnEditar: TButton
       Left = 96
