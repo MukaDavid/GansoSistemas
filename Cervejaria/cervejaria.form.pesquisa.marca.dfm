@@ -1,6 +1,6 @@
 object frmPesquisaMarca: TfrmPesquisaMarca
-  Left = 534
-  Top = 200
+  Left = 771
+  Top = 38
   Width = 778
   Height = 463
   Caption = 'frmPesquisaMarca'

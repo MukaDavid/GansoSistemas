@@ -1,6 +1,6 @@
 object frmCadastroMarca: TfrmCadastroMarca
-  Left = 797
-  Top = 245
+  Left = 808
+  Top = 207
   Width = 579
   Height = 348
   Caption = 'frmCadastroMarca'

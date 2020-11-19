@@ -19,6 +19,7 @@ object dmdConexao: TdmdConexao
     Top = 32
   end
   object IBTransaction1: TIBTransaction
+    Active = True
     Params.Strings = (
       'read_committed'
       'rec_version'

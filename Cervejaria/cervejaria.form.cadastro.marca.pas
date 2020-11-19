@@ -48,6 +48,7 @@ begin
       TClientDataSet(dscCadastro.DataSet).ApplyUpdates(0);
 
     dmdConexao.Commit;
+
     if Assigned(FOnRefreshDataset) then
       FOnRefreshDataset;
   end;

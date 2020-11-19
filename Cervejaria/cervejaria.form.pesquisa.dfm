@@ -1,6 +1,6 @@
 object frmPesquisa: TfrmPesquisa
-  Left = 356
-  Top = 183
+  Left = 441
+  Top = 222
   Width = 815
   Height = 569
   Caption = 'frmPesquisa'
@@ -28,6 +28,7 @@ object frmPesquisa: TfrmPesquisa
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
     OnTitleClick = DBGrid1TitleClick
   end
   object Panel2: TPanel
@@ -80,6 +81,7 @@ object frmPesquisa: TfrmPesquisa
       Height = 34
       Caption = 'btnIncluir'
       TabOrder = 0
+      OnClick = btnIncluirClick
     end
     object btnEditar: TButton
       Left = 96
@@ -88,6 +90,7 @@ object frmPesquisa: TfrmPesquisa
       Height = 33
       Caption = 'btnEditar'
       TabOrder = 1
+      OnClick = btnEditarClick
     end
     object btnRefresh: TButton
       Left = 296

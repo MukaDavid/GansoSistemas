@@ -1,7 +1,7 @@
 object dmdCadastroBase: TdmdCadastroBase
   OldCreateOrder = False
-  Left = 972
-  Top = 211
+  Left = 519
+  Top = 250
   Height = 343
   Width = 531
   object qryPesquisa: TIBQuery

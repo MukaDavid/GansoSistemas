@@ -1,6 +1,7 @@
 inherited dmdCadastroCerveja: TdmdCadastroCerveja
-  Left = 901
-  Top = 212
+  OldCreateOrder = True
+  Left = 866
+  Top = 214
   inherited qryPesquisa: TIBQuery
     SQL.Strings = (
       'SELECT CRV.*,'
@@ -12,6 +13,45 @@ inherited dmdCadastroCerveja: TdmdCadastroCerveja
       '  CAT.CAT_ID = CRV.CAT_ID'
       'LEFT JOIN MARCA MRC ON'
       '  MRC.MRC_ID = CRV.MRC_ID')
+  end
+  inherited qryCadastro: TIBQuery
+    SQL.Strings = (
+      'select * '
+      'from CERVEJA'
+      'where CVJ_ID = :CVJ_ID')
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'CVJ_ID'
+        ParamType = ptUnknown
+      end>
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'CVJ_ID'
+        ParamType = ptUnknown
+      end>
+    object cdsCadastroCVJ_ID: TIntegerField
+      FieldName = 'CVJ_ID'
+      Origin = '"CERVEJA"."CVJ_ID"'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsCadastroCVJ_NOME: TStringField
+      FieldName = 'CVJ_NOME'
+      Origin = '"CERVEJA"."CVJ_NOME"'
+      Size = 250
+    end
+    object cdsCadastroMRC_ID: TIntegerField
+      FieldName = 'MRC_ID'
+      Origin = '"CERVEJA"."MRC_ID"'
+    end
+    object cdsCadastroCAT_ID: TIntegerField
+      FieldName = 'CAT_ID'
+      Origin = '"CERVEJA"."CAT_ID"'
+    end
   end
   inherited cdsPesquisa: TClientDataSet
     object cdsPesquisaCVJ_ID: TIntegerField

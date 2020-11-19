@@ -1,7 +1,7 @@
 object dmdCadastroMarca: TdmdCadastroMarca
   OldCreateOrder = False
-  Left = 779
-  Top = 196
+  Left = 278
+  Top = 30
   Height = 359
   Width = 510
   object qryPesquisa: TIBQuery
